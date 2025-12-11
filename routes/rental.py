@@ -16,7 +16,7 @@ def add():
         user_id = request.form['user_id']
         book_id = request.form['book_id']
         rental_date = datetime.now()
-        Rental.create(user=user_id, book=book_id, rental_date=rental_date)
+        Rental.create(user=user_id, books=book_id, rental_date=rental_date)
         return redirect(url_for('rental.list'))
     
     users = User.select()
