@@ -2,7 +2,6 @@ from peewee import SqliteDatabase
 from .db import db
 from .user import User
 from .books import Books
-from .order import Order
 from .rental import Rental
 from .book_request import BookRequest
 
@@ -10,7 +9,6 @@ from .book_request import BookRequest
 MODELS = [
     User,
     Books,
-    Order,
     Rental,
     BookRequest,
 ]
