@@ -3,14 +3,14 @@ from .db import db
 from .user import User
 from .product import Product
 from .order import Order
-from .request_book import RequestBook
+from .book_request import BookRequest
 
 # モデルのリストを定義しておくと、後でまとめて登録しやすくなります
 MODELS = [
     User,
     Product,
     Order,
-    RequestBook,
+    BookRequest,
 ]
 
 # データベースの初期化関数
