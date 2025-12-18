@@ -89,7 +89,7 @@ def chart():
         counts.append(cumulative)
 
     return render_template(
-        'user_graph.html',
+        'index.html',
         labels=labels,
         counts=counts
     )
