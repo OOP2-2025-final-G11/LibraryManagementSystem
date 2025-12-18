@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>図書館管理システム</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='base-style.css') }}"
@@ -35,5 +36,42 @@
         <a class="button" href="{{ url_for('book_request.add') }}">新規リクエスト</a>
         <a class="button" href="{{ url_for('book_request.list') }}">リクエスト一覧</a>
       </div>
+    </div>
+  
+    <h2>月ごとの貸出数</h2>
+    <p id="chart-year" class="chart-year"></p>
+    <canvas id="monthlyRentalChart" width="600" height="300"></canvas>
+
+    <script>
+      fetch("/rentals/api/monthly_rentals")
+        .then((res) => res.json())
+        .then((result) => {
+
+          document.getElementById("chart-year").textContent =
+        result.year + "年";
+          const ctx = document.getElementById("monthlyRentalChart");
+
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: result.labels,
+              datasets: [
+                {
+                  label: "貸出数",
+                  data: result.data,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        });
+    </script>
   </body>
 </html>
