@@ -7,6 +7,7 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='base-style.css') }}"
     />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <h1>注文管理システム</h1>
@@ -16,5 +17,51 @@
       <li><a href="{{ url_for('rental.list') }}">本の貸し出し</a></li>
       <li><a href="{{ url_for('book_request.list') }}">本のリクエスト</a></li>
     </ul>
+
+    <hr />
+
+    <h2>📊 貸出ランキング</h2>
+
+    <canvas id="rentalChart"></canvas>
+
+    <script>
+      fetch("/api/rental-ranking")
+        .then((res) => res.json())
+        .then((json) => {
+          const ctx = document.getElementById("rentalChart");
+
+          // 順位ラベルを作る（1位, 2位, ...）
+          const rankLabels = json.data.map((_, i) => `${i + 1}位`);
+
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: rankLabels,
+              datasets: [
+                {
+                  label: "貸出回数",
+                  data: json.data,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  position: "right",
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      const index = context.dataIndex;
+                      return `${json.labels[index]}：${context.raw}回`;
+                    },
+                  },
+                },
+              },
+            },
+          });
+        });
+    </script>
   </body>
 </html>
